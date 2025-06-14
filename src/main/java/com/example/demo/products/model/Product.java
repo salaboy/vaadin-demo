@@ -2,10 +2,12 @@ package com.example.demo.products.model;
 
 import org.springframework.data.redis.core.RedisHash;
 
+import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.UUID;
 
 @RedisHash("Product")
-public class Product {
+public class Product implements Serializable {
   private String id;
   private String sku;
   private String name;
@@ -13,6 +15,15 @@ public class Product {
   private BigDecimal price;
 
   public Product() {
+    this.id = UUID.randomUUID().toString();
+  }
+
+  public Product(String sku, String name, String description, BigDecimal price) {
+    this();
+    this.sku = sku;
+    this.name = name;
+    this.description = description;
+    this.price = price;
   }
 
   public String getId() {
