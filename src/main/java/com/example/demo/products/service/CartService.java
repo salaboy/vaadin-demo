@@ -2,7 +2,6 @@ package com.example.demo.products.service;
 
 import com.example.demo.products.model.CartItem;
 import com.example.demo.products.model.Product;
-import org.checkerframework.checker.units.qual.A;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.annotation.SessionScope;
 
@@ -33,6 +32,9 @@ public class CartService {
 
   }
 
+  public Integer getItemsCount(){
+    return cartSKUAmount.keySet().size();
+  }
 
 
   public List<CartItem> getAllCartItem(){
@@ -42,6 +44,7 @@ public class CartService {
     }
     return cartItems;
   }
+
 
   public BigDecimal cartTotal(){
     BigDecimal total = new BigDecimal(0);

@@ -8,7 +8,8 @@ public class CartItem implements Serializable {
   private final String sku;
   private final String productName;
   private final String shortDescription;
-  private final BigDecimal price;
+  private final BigDecimal pricePerUnit;
+  private final BigDecimal totalPrice;
   private final Integer amount;
 
 
@@ -17,7 +18,8 @@ public class CartItem implements Serializable {
     this.amount = amount;
     this.sku = product.getSku();
     this.productName = product.getName();
-    this.price = product.getPrice();
+    this.pricePerUnit = product.getPrice();
+    this.totalPrice = product.getPrice().multiply(new BigDecimal(amount));
     this.shortDescription = product.getDescription().substring(0,5); // extremely short
 
   }
@@ -34,8 +36,12 @@ public class CartItem implements Serializable {
     return shortDescription;
   }
 
-  public BigDecimal getPrice() {
-    return price;
+  public BigDecimal getPricePerUnit() {
+    return pricePerUnit;
+  }
+
+  public BigDecimal getTotalPrice() {
+    return totalPrice;
   }
 
   public Integer getAmount() {
@@ -53,7 +59,8 @@ public class CartItem implements Serializable {
             ", sku='" + sku + '\'' +
             ", productName='" + productName + '\'' +
             ", shortDescription='" + shortDescription + '\'' +
-            ", price=" + price +
+            ", pricePerUnit=" + pricePerUnit +
+            ", totalPrice=" + totalPrice +
             ", amount=" + amount +
             '}';
   }

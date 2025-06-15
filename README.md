@@ -8,6 +8,24 @@ Simple Vaadin + Redis Demo
 - Shop UI Vaadin
 - Spring Security + Vaadin Login Form
 
+## Run and test
+
+To start the application run: 
+
+```sh
+mvn spring-boot:test-run
+```
+You can access the application pointing your browser to: [http://localhost:8080](http://localhost:8080)
+
+Users:
+- "user":"password"
+- "admin":"password"
+
+You can run all tests with:
+```sh
+mvn clean install
+```
+
 ## What's done: 
 - Vaadin App using native spring services for Product List, Shopping Cart, Sessions List
 - Using Spring Security and Vaadin integration for Login page

@@ -66,7 +66,7 @@ public class ProductEditor extends VerticalLayout implements KeyNotifier {
     // wire action buttons to save, delete and reset
     save.addClickListener(e -> save());
     delete.addClickListener(e -> delete());
-    cancel.addClickListener(e -> editProduct(product));
+    cancel.addClickListener(e -> editProduct(null));
     addToCart.addClickListener(e -> addProductToCart(product));
     setVisible(false);
   }

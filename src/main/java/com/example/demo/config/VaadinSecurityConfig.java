@@ -72,7 +72,7 @@ class VaadinSecurityConfig extends VaadinWebSecurity {
                 .cors(withDefaults());
     super.configure(http);
 
-    setLoginView(http, LoginView.class);
+    setLoginView(http, LoginView.class, "/logged-out.html");
   }
 
   private boolean ignoreFrameworkInternalRequests(HttpServletRequest request) {

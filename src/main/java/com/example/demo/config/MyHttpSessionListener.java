@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.products.service.CartService;
 import com.example.demo.products.service.SessionsService;
 import jakarta.servlet.http.HttpSessionEvent;
 
