@@ -38,7 +38,6 @@ mvn clean install
 ## What's missing: 
 - Session replication with Redis (`spring-session-data-redis`), this can be done if we remove Vaadin and just use HTTP endpoints
 - Search capabilities, as spring data redis supports a limited number of keywords for the ListCrudRepository
-- Sessions List for ADMIN role should show shopping carts instead of HTTP Sessions and then filter by the ones with more than X items.
 
 
 ## Issues & references: 
