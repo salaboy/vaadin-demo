@@ -1,5 +1,6 @@
 package com.example.demo.products.controller;
 
+import com.example.demo.products.model.CartItem;
 import com.example.demo.products.model.Product;
 import com.example.demo.products.repository.ProductRepository;
 import com.example.demo.products.service.CartService;
@@ -7,7 +8,9 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
@@ -25,13 +28,14 @@ public class ProductsRestController {
     return productRepository.save(product);
   }
 
-  @GetMapping("/products/{id}")
+  @GetMapping("/products/byId")
   public Product getProductById(@RequestParam("id") String productId){
     Optional<Product> byId = productRepository.findById(productId);
     return byId.orElse(null);
   }
 
-  @DeleteMapping("/products/{id}")
+
+  @DeleteMapping("/products/")
   public void deleteProduct(@RequestParam("id") String productId){
     productRepository.deleteById(productId);
   }
@@ -49,14 +53,22 @@ public class ProductsRestController {
     return "Session invalidated!";
   }
 
+  //@TODO: move this to a separate controller
   @PostMapping("/cart/")
   public void addProductToShoppingCart(@RequestBody Product product) {
     cartService.addProductToCart(product);
   }
 
+  //@TODO: move this to a separate controller
   @GetMapping("/cart/")
-  public List<Product> getShoppingCartProducts(){
-    return cartService.getAllCartProducts();
+  public List<CartItem> getShoppingCartProducts(){
+    return cartService.getAllCartItem();
+  }
+
+  //@TODO: move this to a separate controller
+  @GetMapping("/cart/total")
+  public BigDecimal getCartTotal(){
+    return cartService.cartTotal();
   }
 
 }

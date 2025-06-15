@@ -3,7 +3,9 @@ package com.example.demo.config;
 import com.example.demo.products.service.SessionsService;
 import com.example.demo.ui.LoginView;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.vaadin.flow.server.HandlerHelper;
 import com.vaadin.flow.spring.security.VaadinWebSecurity;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSessionListener;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
@@ -41,20 +43,41 @@ class VaadinSecurityConfig extends VaadinWebSecurity {
     return listenerRegBean;
   }
 
-  private static final String[] PUBLIC_ENDPOINTS = {
-          "/images/*"
-
-  };
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
+    // Vaadin has its own CSRF protection.
+    // Spring CSRF is not compatible with Vaadin internal requests
+    http.csrf(cfg -> cfg.ignoringRequestMatchers(this::ignoreFrameworkInternalRequests));
+
+    http.authorizeHttpRequests(requests -> {
+
+      // Permit access to actuator endpoint (running on another port anyway)
+
+      requests.requestMatchers(this::ignoreFrameworkInternalRequests).permitAll();
+      // Permit access to /login**
+      requests.requestMatchers(AntPathRequestMatcher.antMatcher("/login" + "**")).permitAll();
+      // Allow access to static resources ("/VAADIN/build/**" or "/VAADIN/**" (locally in DevMode)) as well as
+      // to PUSH and dynamic generated content
+      requests.requestMatchers(AntPathRequestMatcher.antMatcher("/VAADIN/**")).permitAll();
+      // Secure everything else
+    });
+    http.formLogin(login -> {
+      login.permitAll()
+              .loginPage("/login");
+    });
+
     http
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(withDefaults());
     super.configure(http);
 
     setLoginView(http, LoginView.class);
+  }
+
+  private boolean ignoreFrameworkInternalRequests(HttpServletRequest request) {
+    // Permit access to vaadin's internal communication - /* means the vaadin url-mapping; not the context path
+    return HandlerHelper.isFrameworkInternalRequest("/*", request);
   }
 
   @Bean

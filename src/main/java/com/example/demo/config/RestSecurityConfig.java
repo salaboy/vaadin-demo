@@ -23,9 +23,7 @@ public class RestSecurityConfig {
               .authorizeHttpRequests(auth -> auth
                       .requestMatchers("/api/**").authenticated()
               )
-              .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
               .csrf(AbstractHttpConfigurer::disable)
-              .formLogin(AbstractHttpConfigurer::disable)
               .cors(withDefaults());
 
 

@@ -8,6 +8,7 @@ import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
@@ -86,6 +87,8 @@ public class ProductEditor extends VerticalLayout implements KeyNotifier {
 
   public final void addProductToCart(Product p) {
     cartService.addProductToCart(p);
+    Notification
+            .show("Product: " + product.getName() + "added to cart!");
   }
 
   public final void editProduct(Product p) {
